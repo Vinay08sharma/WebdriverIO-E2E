@@ -1,9 +1,7 @@
 
-# Project Title
+# WebDriverIO End to End Framework
 
 Hello, Created an end to end webdriverIO framework.
-
-
 
 
 ## To start with
