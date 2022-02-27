@@ -6,7 +6,7 @@ Hello, Created an end to end webdriverIO framework with support to Browserstack 
 
 ## Pre-requiste
 
-Below tools need to be installed on you system
+Below tools need to be installed on your system
 
 - NodeJs
 - chrome
