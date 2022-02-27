@@ -3,15 +3,19 @@ import { Regions } from '../../resources/constant';
 import {HomePage} from '../pages/homepage.page';
 import allureReporter from '@wdio/allure-reporter';
 import {SignIn} from '../pages/signIn.page';
+import * as testData from '../data/testData.json';
+import { MovieDetailsPage } from '../pages/movieDetailsPage.page';
 
 describe('Homepage test cases',() => {
 
     let homepage: HomePage;
     let signIn: SignIn;
+    let movieDetailsPage: MovieDetailsPage;
 
     before(async () => {
         homepage = new HomePage();
         signIn = new SignIn();
+        movieDetailsPage = new MovieDetailsPage();
         browser.maximizeWindow();
     })
 
@@ -47,6 +51,14 @@ describe('Homepage test cases',() => {
         const isLoginModalDisplayed = await signIn.isLoginModalDisplayed();
         chaiExpect(isLoginModalDisplayed,
             'Expected the presence of login Modal but not found').to.be.true;
+    })
+
+    it('Validate search functionality on homepage', async () => {
+        await browser.pause(3000);
+        await homepage.searchAndSelectMovie(testData.data.movieName);
+        const isBookNowButtonVisible = await movieDetailsPage.isBookNowButtonVisible();
+        chaiExpect(isBookNowButtonVisible,
+            'Expected the presence of booknow button. But not fount').to.be.true;
     })
 
     afterEach(async() => {
