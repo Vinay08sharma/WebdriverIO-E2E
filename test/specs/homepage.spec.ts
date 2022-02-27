@@ -56,6 +56,7 @@ describe('Homepage test cases',() => {
     it('Validate search functionality on homepage', async () => {
         await browser.pause(3000);
         await homepage.searchAndSelectMovie(testData.data.movieName);
+        await browser.pause(2000);
         const isBookNowButtonVisible = await movieDetailsPage.isBookNowButtonVisible();
         chaiExpect(isBookNowButtonVisible,
             'Expected the presence of booknow button. But not fount').to.be.true;
