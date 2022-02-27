@@ -33,7 +33,7 @@ To open allure report
   npm run allure-report
 ```
 
-## To run with browserstack
+## To run your test on browserstack
 
 Note: Copy username and accesskey from the Browserstack account
 
