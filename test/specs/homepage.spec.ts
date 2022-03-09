@@ -65,6 +65,7 @@ describe('Homepage test cases',() => {
     afterEach(async() => {
         const screenshot = await browser.takeScreenshot();
         allureReporter.addAttachment('Homepage UI Validation', Buffer.from(screenshot, 'base64'), 'image/png');
+        
     })
 
 
