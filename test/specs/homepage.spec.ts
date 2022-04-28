@@ -62,7 +62,7 @@ describe('Homepage test cases',() => {
             'Expected the presence of booknow button. But not fount').to.be.true;
     })
 
-    afterEach(async() => {
+    afterEach(async() => { 
         const screenshot = await browser.takeScreenshot();
         allureReporter.addAttachment('Homepage UI Validation', Buffer.from(screenshot, 'base64'), 'image/png');
         
