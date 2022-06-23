@@ -3,4 +3,5 @@ export enum Regions {
     BENGALURU = 'Bengaluru',
     PUNE = 'Pune',
     CHENNAI = 'Chennai'
+    
 }
