@@ -22,7 +22,7 @@ jobs:
             node-version: 16.3.0
         - name: Install
           run: npm install
-        - name: Test
+        - name: Running Test
           run: BROWSERSTACK_USERNAME=${{secrets.BROWSERSTACK_USERNAME}} BROWSERSTACK_ACCESS_KEY=${{secrets.BROWSERSTACK_ACCESS_KEY}} npm run test
         - uses: actions/upload-artifact@v1
           if: failure()
