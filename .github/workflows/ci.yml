@@ -23,6 +23,9 @@ on:
         description: 'Environment to run tests against'
         type: environment
         required: true
+        options:
+        - staging
+        - prod
   push:
     branches: [ master ]
   pull_request:
