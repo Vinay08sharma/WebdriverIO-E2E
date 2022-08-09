@@ -6,30 +6,17 @@ name: webdriverio-ci
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
-      tags:
-        description: 'Test scenario tags'
-        required: false
-        type: boolean
       environment:
         description: 'Environment to run tests against'
-        type: choice
+        type: environment
         required: true
         options:
         - staging
         - prod
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+        
+      spec:
+        description: 'Spec file to run'
+        default: '*'
 
 jobs:
   test:
@@ -44,6 +31,11 @@ jobs:
             node-version: 16.3.0
         - name: Install
           run: npm install
+        - name: testing
+          run: |
+            echo "Spec: ${{ inputs.sepc }}"
+            echo "Environment: ${{ inputs.environment }}"
+            
         - name: Running Test
           run: BROWSERSTACK_USERNAME=${{secrets.BROWSERSTACK_USERNAME}} BROWSERSTACK_ACCESS_KEY=${{secrets.BROWSERSTACK_ACCESS_KEY}} npm run test
         - uses: actions/upload-artifact@v1
