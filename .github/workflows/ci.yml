@@ -1,40 +1,70 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: webdriverio-ci
+name: Cypress Tests
 
 on:
   workflow_dispatch:
     inputs:
       environment:
         description: 'Environment to run tests against'
+        default: staging
         type: choice
         required: true
         options:
         - staging
         - prod
+
+      tags:
+        description: 'Choose the tag to filter test to run'
+        default: 'login' 
+        type: choice
+        required: true
+        options:
+        - smoke
+        - sanity
+        - login
+        - settings 
+
+      browser:
+        description: 'Choose browser on which tests will run'
+        default: 'chrome' 
+        type: choice
+        required: true
+        options:
+        - chrome
+        - firefox 
+
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
-  test:
-
+  ui-chrome-tests:
     runs-on: ubuntu-latest
-  
+    container: cypress/browsers:node16.13.2-chrome100-ff98
+    strategy:
+      fail-fast: false
+      matrix:
+        # run copies of the current job in parallel
+        containers: [1]
     steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-        - uses: actions/setup-node@v1
-          with:
-            node-version: 16.3.0
-        - name: Install
-          run: npm install
-        - name: Running Test
-          run: BROWSERSTACK_USERNAME=${{secrets.BROWSERSTACK_USERNAME}} BROWSERSTACK_ACCESS_KEY=${{secrets.BROWSERSTACK_ACCESS_KEY}} npm run test
-        - uses: actions/upload-artifact@v1
-          if: failure()
-          with:
-            name: logs
-            path: logs
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install cypress & Other dependencies
+        run: yarn install
+
+      - name: 'UI Tests - ${{ inputs.browser }}'
+        uses: cypress-io/github-action@v4
+        with:
+          # we have already installed all dependencies above
+          install: false
+          browser: ${{ inputs.browser }}
+          record: true
+          parallel: true
+          group: 'UI - Chrome'
+
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_PROJECT_ID: ${{ secrets.PROJECT_ID }}      
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_env: ${{ inputs.environment }}
+          CYPRESS_grepTags: ${{ inputs.tags }}
+          CYPRESS_grepFilterSpecs: true
