@@ -15,13 +15,8 @@ on:
       tags:
         description: 'Choose the tag to filter test to run'
         default: 'login' 
-        type: choice
+        type: string
         required: true
-        options:
-        - smoke
-        - sanity
-        - login
-        - settings 
 
       browser:
         description: 'Choose browser on which tests will run'
