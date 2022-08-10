@@ -45,6 +45,10 @@ jobs:
 
       - name: Install cypress & Other dependencies
         run: yarn install
+        
+      - name: test
+        run: |
+          echo "Log level: '@{{ inputs.tags }}'"
 
       - name: 'UI Tests - ${{ inputs.browser }}'
         uses: cypress-io/github-action@v4
@@ -61,5 +65,7 @@ jobs:
           CYPRESS_PROJECT_ID: ${{ secrets.PROJECT_ID }}      
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_env: ${{ inputs.environment }}
-          CYPRESS_grepTags: ${{ inputs.tags }}
+          CYPRESS_grepTags: '@${{ inputs.tags }}'
           CYPRESS_grepFilterSpecs: true
+          
+            
